@@ -159,6 +159,7 @@ func (f *File) write(b []byte) (n int, err error) {
 
 	if err == nil {
 		f.size += int64(n)
+		f.flush()
 	}
 	return
 }
@@ -220,7 +221,6 @@ func (f *File) rolling(n int) {
 func (f *File) flush() {
 	if f.bufWriter != nil {
 		f.bufWriter.Flush()
-		return
 	}
 	if f.file != nil {
 		f.file.Sync()
